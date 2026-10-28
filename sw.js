@@ -1,5 +1,5 @@
 // Offline cache for the SPI app. Bump VERSION whenever any file changes.
-const VERSION = "spi-v1";
+const VERSION = "spi-v2";
 const FILES = [
   "./", "index.html", "app.css", "app.js", "gens.js", "content.js", "manifest.webmanifest",
   "vendor/phosphor/regular.css", "vendor/phosphor/fill.css", "vendor/phosphor/Phosphor.woff2", "vendor/phosphor/Phosphor-Fill.woff2",

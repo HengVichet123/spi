@@ -125,7 +125,8 @@ a.row:active, .row-link:active { background: rgba(0, 0, 0, 0.06); }
 .dot-i { flex: none; color: var(--tint); font-size: 1.05rem; margin-top: 3px; }
 
 /* ---------- worked examples */
-.example { background: var(--card); border-radius: 14px; padding: 16px; margin-top: 14px; }
+.example { background: var(--card); border-radius: 14px; padding: 16px; }
+.example + .example { margin-top: 14px; }
 .ex-label { font-size: .78rem; font-weight: 600; color: var(--tint); margin-bottom: 8px; }
 .ex-q { font-size: .97rem; line-height: 1.65; overflow-x: auto; }
 .ex-q p { margin: 0 0 8px; }
@@ -151,8 +152,8 @@ table.dt thead th, table.dt tbody th { background: var(--bg); text-align: center
 .solution { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s var(--ease); }
 .solution > div { overflow: hidden; }
 .example.open .solution { grid-template-rows: 1fr; }
-.sol-inner { padding-top: 14px; font-size: .94rem; line-height: 1.7; }
-.sol-head { font-weight: 700; margin-bottom: 4px; }
+.sol-inner { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: var(--tint-soft); font-size: .94rem; line-height: 1.7; }
+.sol-head { font-weight: 700; margin-bottom: 4px; color: var(--tint); }
 .sol-head b { color: var(--green-text); }
 .sol-body b { font-weight: 700; }
 .sol-body i { color: var(--label-2); font-style: normal; }

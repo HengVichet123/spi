@@ -75,29 +75,28 @@
       html: `<h1 class="large-title" data-large>${t.name}</h1><p class="subtitle">${t.en}</p>
         <div class="meta">${t.formats.map((f) => `<span class="tag">${FORMAT_NAMES[f]}</span>`).join("")}<span class="tag freq-${t.freq}">頻度 ${t.freq}</span></div>
         <p class="why">${t.why}<span class="en">${t.why_en}</span></p>
-        <div class="section-head"><span>パターン</span><span class="count" id="topic-count">${d}/${t.patterns.length} わかる</span></div>
-        <ul class="group">${rows}</ul>
-        <p class="section-foot">丸をタップで「わかる」。行をタップで例題と解き方へ。</p>
         <div class="section-head"><span>公式・ポイント</span></div>
         <div class="group">${t.formulas.map((f) => `<div class="text-row"><i class="ph-fill ph-diamond dot-i" aria-hidden="true"></i><div>${f}</div></div>`).join("")}</div>
         <div class="section-head"><span>解き方の手順</span></div>
         <div class="group">${t.steps.map(([jp, en], i) => `<div class="text-row"><span class="step-n">${i + 1}</span><div>${jp}<span class="en">${en}</span></div></div>`).join("")}</div>
         <div class="section-head"><span>よくあるミス</span></div>
-        <div class="group">${t.traps.map(([jp, en]) => `<div class="text-row"><i class="ph-fill ph-warning trap-i" aria-hidden="true"></i><div>${jp}<span class="en">${en}</span></div></div>`).join("")}</div>`,
+        <div class="group">${t.traps.map(([jp, en]) => `<div class="text-row"><i class="ph-fill ph-warning trap-i" aria-hidden="true"></i><div>${jp}<span class="en">${en}</span></div></div>`).join("")}</div>
+        <div class="section-head"><span>パターン</span><span class="count" id="topic-count">${d}/${t.patterns.length} わかる</span></div>
+        <ul class="group">${rows}</ul>
+        <p class="section-foot">行をタップで例題と解き方へ。丸をタップで「わかる」。</p>`,
     };
   }
 
   function exampleHTML(ex, label) {
     const sol = ex.steps || ex.expl;
-    return `<article class="example">
+    return `<article class="example open">
       <div class="ex-label">${label}</div>
       <div class="ex-q">${ex.q}</div>
       <ol class="choices">${ex.choices.map((c, i) => `<li class="${i === ex.answer ? "right" : ""}"><span class="letter">${LETTERS[i]}</span><span>${c}</span><i class="ph-bold ph-check right-mark" aria-hidden="true"></i></li>`).join("")}</ol>
-      <button class="reveal" type="button" aria-expanded="false"><span>正解と解き方を見る</span><i class="ph ph-caret-down" aria-hidden="true"></i></button>
-      <div class="solution"><div><div class="sol-inner">
-        <div class="sol-head">正解 <b>${LETTERS[ex.answer]}</b></div>
+      <div class="sol-inner">
+        <div class="sol-head">解き方　<b>正解 ${LETTERS[ex.answer]}</b></div>
         <div class="sol-body">${sol}</div>${ex.en ? `<span class="en">${ex.en}</span>` : ""}
-      </div></div></div>
+      </div>
     </article>`;
   }
 
@@ -118,6 +117,9 @@
     return {
       title: p.name, back: [p.topic.name, "#/t/" + p.topic.id], tab: null,
       html: `<h1 class="large-title" data-large>${p.name}</h1><p class="subtitle">${p.en}</p>
+        <div class="section-head"><span>ポイント（${p.topic.name}）</span></div>
+        <div class="group">${p.topic.formulas.map((f) => `<div class="text-row"><i class="ph-fill ph-diamond dot-i" aria-hidden="true"></i><div>${f}</div></div>`).join("")}</div>
+        <div class="section-head"><span>例題と解き方</span></div>
         <div id="ex-list">${patternExamples(p).map((ex, i) => exampleHTML(ex, `例題 ${i + 1}`)).join("")}</div>
         ${p.gen ? `<button class="more" type="button" data-more="${p.id}"><i class="ph ph-plus-circle" aria-hidden="true"></i>別の例題を見る</button>` : ""}`,
       actionbar: `<button class="know-btn" type="button" data-know="${p.id}" aria-pressed="${on}">${knowLabel(on)}</button>`,
@@ -227,14 +229,6 @@
       setCheck(know.dataset.know, on);
       know.setAttribute("aria-pressed", String(on));
       know.innerHTML = knowLabel(on);
-      return;
-    }
-
-    const rev = e.target.closest(".reveal");
-    if (rev) {
-      const ex = rev.closest(".example"), open = ex.classList.toggle("open");
-      rev.setAttribute("aria-expanded", String(open));
-      rev.firstElementChild.textContent = open ? "解き方を閉じる" : "正解と解き方を見る";
       return;
     }
 
